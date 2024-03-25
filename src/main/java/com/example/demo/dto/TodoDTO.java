@@ -21,4 +21,13 @@ public class TodoDTO{
         this.title = entity.getTitle();
         this.done = entity.isDone();
     }
+
+    //DTO를 Entity로 바꾸는 메서드
+    public static TodoEntity toEntity(final TodoDTO dto){
+        return TodoEntity.builder()
+                .id(dto.getId())
+                .title(dto.getTitle())
+                .done(dto.isDone())
+                .build();
+    }
 }
