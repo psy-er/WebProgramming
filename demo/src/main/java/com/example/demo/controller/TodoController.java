@@ -23,10 +23,17 @@ public class TodoController {
 
     @GetMapping("/test")
     public ResponseEntity<?> testTodo(){
+        // service의 testService() 함수를 호출해 제목을 받아옵니다.
         String str = service.testService();
+
+        // 리스트를 생성하고 제목을 저장합니다.
         List<String> list = new ArrayList<>();
         list.add(str);
+
+        // List의 자료형을 String로 설정했기 때문에, String 자료형으로 ResponseDTO의 자료형도 String으로 설정해야 한다.
         ResponseDTO<String> response = ResponseDTO.<String>builder().data(list).build();
+
+        // ResponseDTO을 받아 ResponseEntity를 생성하고 상태를 반환합니다.
         return ResponseEntity.ok().body(response);
     }
 
@@ -82,7 +89,7 @@ public class TodoController {
             List<TodoEntity> entities = service.delete(entity);
             List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
             ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
-            
+
             return ResponseEntity.ok().body(response);
         }catch (Exception e){
             String error = e.getMessage();

@@ -18,9 +18,13 @@ public class TodoService {
     private TodoRepository repository;
     public String testService(){
         TodoEntity entity = TodoEntity.builder().title("My first todo item").build();
-        repository.save(entity);
+        repository.save(entity); // save 함수는 repository 내장함수이다.
         TodoEntity savedEntity = repository.findById(entity.getId()).get();
+        // getId()는 Entity를 직접 접근할 수 있다?
+        // findById는 repository에 생성하지 않고도 사용할수있나?
+        // 'get()'은 조회된 엔티티를 가져오는 메서드입니다. 이는 Optional을 반환합니다
         return savedEntity.getTitle();
+        // 엔티티의 모든 속성에 대한 get함수가 생성된다. getTitle을 이용해 제목을 가지고 온다.
     }
 
     public List<TodoEntity> create(final TodoEntity entity){
