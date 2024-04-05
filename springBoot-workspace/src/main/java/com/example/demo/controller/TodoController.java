@@ -42,13 +42,15 @@ public class TodoController {
         try {
             String temporaryUserId = "temporary-user";
 
-            TodoEntity entity = TodoDTO.toEntity(dto);
-            entity.setId(null);
+            TodoEntity entity = TodoDTO.toEntity(dto); // dto -> entity
+            entity.setId(null); // id를 null로 초기화
             entity.setUserId(temporaryUserId);
-            List<TodoEntity> entities = service.create(entity);
+            List<TodoEntity> entities = service.create(entity); // 서비스 계층에 entity 생성 요청
+            // entity의 stream을 생성하고 엔티티 리스트를 DTO리스트로 변환
             List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
-
+            // 변환된 TodoDTO 리스트로 ResponseDTO 리스트 초기화
             ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
+            // ResponseDTO 반환
             return ResponseEntity.ok().body(response);
 
         }catch(Exception e){
@@ -61,7 +63,6 @@ public class TodoController {
     @GetMapping
     public ResponseEntity<?> retrieveTodoList(){ // list get 하기
         String temporaryUserId = "temporary-user";
-
         List<TodoEntity> entities = service.retrieve(temporaryUserId);
         List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
