@@ -40,11 +40,11 @@ public class TodoController {
     @PostMapping
     public ResponseEntity<?> createTodo(@RequestBody TodoDTO dto) {
         try {
-            String temporaryUserId = "temporary-user";
+            String RealUserId = "SeYeonPark";
 
             TodoEntity entity = TodoDTO.toEntity(dto); // dto -> entity
             entity.setId(null); // id를 null로 초기화
-            entity.setUserId(temporaryUserId);
+            entity.setUserId(RealUserId);
             List<TodoEntity> entities = service.create(entity); // 서비스 계층에 entity 생성 요청
             // entity의 stream을 생성하고 엔티티 리스트를 DTO리스트로 변환
             List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
@@ -62,8 +62,8 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<?> retrieveTodoList(){ // list get 하기
-        String temporaryUserId = "temporary-user";
-        List<TodoEntity> entities = service.retrieve(temporaryUserId);
+        String RealUserId = "SeYeonPark";
+        List<TodoEntity> entities = service.retrieve(RealUserId);
         List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
         return ResponseEntity.ok().body(response);
@@ -71,10 +71,10 @@ public class TodoController {
 
     @PutMapping
     public ResponseEntity<?> updateTodo(@RequestBody TodoDTO dto){
-        String temporaryUserId = "temporary-user";
+        String RealUserId = "SeYeonPark";
 
         TodoEntity entity = TodoDTO.toEntity(dto);
-        entity.setUserId(temporaryUserId);
+        entity.setUserId(RealUserId);
         List<TodoEntity> entities = service.update(entity);
         List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
@@ -84,9 +84,9 @@ public class TodoController {
     @DeleteMapping
     public ResponseEntity<?> deleteTodo(@RequestBody TodoDTO dto){
         try{
-            String temporaryUSerId = "temporary-user";
+            String RealUserId = "SeYeonPark";
             TodoEntity entity = TodoDTO.toEntity(dto);
-            entity.setUserId(temporaryUSerId);
+            entity.setUserId(RealUserId);
             List<TodoEntity> entities = service.delete(entity);
             List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
             ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
