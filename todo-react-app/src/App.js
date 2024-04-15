@@ -5,25 +5,24 @@ import { Container, List, Paper } from "@mui/material";
 import AddTodo from "./AddTodo";
 
 function App() { // 백엔드 받아오기 전 임시 데이터
-  const [items, setItems] = useState([{
-    id : "0",
-    title : "Hello World 1",
-    done : true
-  },{
-    id : "1",
-    title : "Hello World 2",
-    done : false
-  },{
-    id : "2",
-    title : "Hello World 3",
-    done : true
-  }]);
+  const [items, setItems] = useState([]);
 
   const addItem = (item) => {
     item.id = "ID-" + items.length;
     item.done = false;
-    setItems([...items, item]); // items 배열에 item 원소 추가
+    setItems([...items, item]); // items 배열에 item 원소 추가 => 리랜더링된다
     console.log("items: ", items);
+  }
+
+  const deleteItem = (item) => {
+    // 삭제할 아이템을 찾는다.
+    const newItems = items.filter(e => e.id !== item.id);
+    // 삭제할 아이템을 제외한 아이템을 다시 배열에 저장한다.
+    setItems([...newItems]);
+  }
+
+  const editItem = () => {
+    setItems([...items]);
   }
 
   // JSX 결과를 변수에 저장함
@@ -32,7 +31,8 @@ function App() { // 백엔드 받아오기 전 임시 데이터
     <Paper style ={{margin: 16}}>
       <List>
         {items.map((item) => (
-          <Todo item={item} key={item.id}/>
+          <Todo item={item} key={item.id} 
+          editItem={editItem} deleteItem={deleteItem}/>
         ))}
       </List>
     </Paper>
@@ -41,7 +41,7 @@ function App() { // 백엔드 받아오기 전 임시 데이터
   return (
     <div className='App'>
       <Container maxWidth="md">
-        <AddTodo />
+        <AddTodo addItem={addItem} />
         <div className="App">
           {todoItems}
         </div>
