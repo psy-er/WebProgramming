@@ -8,6 +8,7 @@ const Todo = (props) => {
     // [상태변수, 상태변수 업데이트 함수]
     const [item, setItem] = useState(props.item);
     const [readOnly, setReadOnly] = useState(true);
+
     const deleteItem = props.deleteItem;
     const editItem = props.editItem;
 
@@ -20,19 +21,24 @@ const Todo = (props) => {
         setReadOnly(false);
     }
 
-    const deleteEventHandler = () => {
-        deleteItem(item);
-    }
-
     const turnOnReadOnly = (e) => {
         if(e.key == "Enter"){
             setReadOnly(true);
         }
     }
 
+    const deleteEventHandler = () => {
+        deleteItem(item);
+    }
+
+    const checkboxEventHandler = (e) =>{
+        item.done = e.target.checked;
+        editItem();
+    }
+
     return(
         <ListItem>
-            <Checkbox checked={item.done}/>
+            <Checkbox checked={item.done} onChange={checkboxEventHandler}/>
             <ListItemText>
                 <InputBase
                 inputProps={{"aria-label": "naked", readOnly: readOnly}}
