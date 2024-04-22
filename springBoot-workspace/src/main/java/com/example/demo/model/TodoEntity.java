@@ -24,5 +24,6 @@ public class TodoEntity {
     private String userId;
     private String title;
     private boolean done;
+
     
 }
