@@ -40,8 +40,9 @@ function App() { // 백엔드 받아오기 전 임시 데이터
     .then((response)=> setItems(response.data));
   };
 
-  const editItem = () => {
-    setItems([...items]);
+  const editItem = (item) => {
+    call("/todo", "PUT", item)
+    .then((response)=> setItems(response.data));
   }
 
   // JSX 결과를 변수에 저장함
