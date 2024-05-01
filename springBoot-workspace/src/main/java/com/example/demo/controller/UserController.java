@@ -50,7 +50,7 @@ public class UserController {
         }
 
     }
-    @PostMapping("/singin")
+    @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO){
         UserEntity user = userService.getByCredential(
                 userDTO.getUsername(),
