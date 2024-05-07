@@ -25,7 +25,7 @@ public class UserController {
     @Autowired
     private TokenProvider tokenProvider;
 
-    @PostMapping("/signup")
+    @PostMapping("/signup") // 회원가입
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO){
         try{
             if(userDTO == null || userDTO.getPassword() == null){
@@ -50,7 +50,7 @@ public class UserController {
         }
 
     }
-    @PostMapping("/signin")
+    @PostMapping("/signin") // 로그인
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO){
         UserEntity user = userService.getByCredential(
                 userDTO.getUsername(),

@@ -28,7 +28,7 @@ public class TokenProvider {
                 // payload에 들어갈 내용
                 .setSubject(userEntity.getId()) // sub
                 .setIssuer("demo app") // iss
-                .setIssuedAt(new Date()) //iat
+                .setIssuedAt(new Date()) // iat
                 .setExpiration(expiryDate) // exp
                 .compact();
     }
