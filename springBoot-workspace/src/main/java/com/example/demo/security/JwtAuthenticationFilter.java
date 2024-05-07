@@ -1,9 +1,9 @@
 package com.example.demo.security;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -29,9 +29,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, IOException{
         try{
-            String token = parseBearerToken(request);
+            String token = parseBearerToken(request); // 검증 토큰
             log.info("Filter is running ... ");
             if(token != null && !token.equalsIgnoreCase("null")){
+                // userId 가져오기, 위조되 경우 예외 처리하기
                 String userId = tokenProvider.validateAndGetUserId(token);
                 log.info("Authenticated user ID : " + userId);
                 AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -46,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }catch (Exception ex){
             logger.error("Could not set user authentication in security context", ex);
-        }
+        } // 다음 ServletFilter 실행
         filterChain.doFilter(request, response);
     }
     private String parseBearerToken(HttpServletRequest request){
