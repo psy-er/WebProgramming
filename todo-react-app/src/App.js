@@ -47,7 +47,7 @@ function App() { // 백엔드 받아오기 전 임시 데이터
 
   // JSX 결과를 변수에 저장함
 
-  let todoItems = items.length >0 && (
+  let todoItems = items.length > 0 && (
     <Paper style ={{margin: 16}}>
       <List>
         {items.map((item) => (
@@ -56,8 +56,7 @@ function App() { // 백엔드 받아오기 전 임시 데이터
         ))}
       </List>
     </Paper>
-
-  );
+  )
   return (
     <div className='App'>
       <Container maxWidth="md">
@@ -67,6 +66,7 @@ function App() { // 백엔드 받아오기 전 임시 데이터
         </div>
       </Container>
     </div>
-  )
+  );
 }
+
 export default App;

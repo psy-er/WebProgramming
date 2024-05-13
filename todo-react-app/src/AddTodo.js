@@ -36,7 +36,7 @@ const AddTodo = (props) => {
                 </Button>
             </Grid>
         </Grid>
-    );
+    )
 }
 
 export default AddTodo;

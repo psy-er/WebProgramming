@@ -15,13 +15,11 @@ public class TodoDTO{
     private String id;
     private String title;
     private boolean done;
-    private String userId;
 
     public TodoDTO(final TodoEntity entity){
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.done = entity.isDone();
-        this.userId = entity.getUserId();
     }
 
     //DTO를 Entity로 바꾸는 메서드
@@ -30,7 +28,6 @@ public class TodoDTO{
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .done(dto.isDone())
-                .userId(dto.getUserId())
                 .build();
     }
 }

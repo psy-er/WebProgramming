@@ -8,6 +8,7 @@ import com.example.demo.service.TodoService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -38,13 +39,13 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createTodo(@RequestBody TodoDTO dto) {
+    public ResponseEntity<?> createTodo(@AuthenticationPrincipal String userId, @RequestBody TodoDTO dto) {
         try {
-            String RealUserId = "SeYeonPark";
+            //String RealUserId = "SeYeonPark";
 
             TodoEntity entity = TodoDTO.toEntity(dto); // dto -> entity
             entity.setId(null); // id를 null로 초기화
-            entity.setUserId(RealUserId);
+            entity.setUserId(userId);
             List<TodoEntity> entities = service.create(entity); // 서비스 계층에 entity 생성 요청
             // entity의 stream을 생성하고 엔티티 리스트를 DTO리스트로 변환
             List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
@@ -61,20 +62,20 @@ public class TodoController {
     }
 
     @GetMapping
-    public ResponseEntity<?> retrieveTodoList(){ // list get 하기
-        String RealUserId = "SeYeonPark";
-        List<TodoEntity> entities = service.retrieve(RealUserId);
+    public ResponseEntity<?> retrieveTodoList(@AuthenticationPrincipal String userId){ // list get 하기
+        //String RealUserId = "SeYeonPark";
+        List<TodoEntity> entities = service.retrieve(userId);
         List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
         return ResponseEntity.ok().body(response);
     }
 
     @PutMapping
-    public ResponseEntity<?> updateTodo(@RequestBody TodoDTO dto){
-        String RealUserId = "SeYeonPark";
+    public ResponseEntity<?> updateTodo(@AuthenticationPrincipal String userId, @RequestBody TodoDTO dto){
+        //String RealUserId = "SeYeonPark";
 
         TodoEntity entity = TodoDTO.toEntity(dto);
-        entity.setUserId(RealUserId);
+        entity.setUserId(userId);
         List<TodoEntity> entities = service.update(entity);
         List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
@@ -82,11 +83,11 @@ public class TodoController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteTodo(@RequestBody TodoDTO dto){
+    public ResponseEntity<?> deleteTodo(@AuthenticationPrincipal String userId, @RequestBody TodoDTO dto){
         try{
-            String RealUserId = "SeYeonPark";
+            //String RealUserId = "SeYeonPark";
             TodoEntity entity = TodoDTO.toEntity(dto);
-            entity.setUserId(RealUserId);
+            entity.setUserId(userId);
             List<TodoEntity> entities = service.delete(entity);
             List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
             ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
