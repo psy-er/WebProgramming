@@ -46,3 +46,13 @@ export function signin(userDTO){
         }
     });
 }
+
+export function signup(userDTO){
+    return call("/auth/signup", "POST", userDTO);
+}
+
+export function signout(){
+    // 로컬 스토리지에 존재하는 액세스 토큰을 제거한 후 로그인 페이지로 리다이렉트
+    localStorage.setItem("ACCESS_TOKEN", null);
+    window.location.href="/login";
+}

@@ -13,7 +13,7 @@ const AddTodo = (props) => {
     };
 
     const enterKeyEventHandler = (e) => {
-        if(e.key == 'Enter'){
+        if(e.key === 'Enter'){
             onButtonClick();
         }
     }
@@ -25,7 +25,7 @@ const AddTodo = (props) => {
 
     return (
         <Grid container style={{ marginTop:20 }}>
-            <Grid xs={11} md={11} item Style={{paddingRight:16}}>
+            <Grid xs={11} md={11} item style={{paddingRight:16}}>
                 <TextField placeholder='Add Todo here' fullWidth
                 onChange={onInputChange} onKeyPress = {enterKeyEventHandler} value={item.title}></TextField>
             </Grid>
