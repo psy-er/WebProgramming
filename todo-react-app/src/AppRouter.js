@@ -9,9 +9,8 @@ import { Typography, Box } from '@mui/material';
 function Copyright(){
     return(
         <Typography variant="body2" color = "textSecondary" align="center">
-            {"Copyright c"}
-            fsoftwareengineer, {new Date().getFullYear()}
-            {"."}
+            {"Copyright"}
+            fsoftwareengineer, {new Date().getFullYear} {"."}
         </Typography>
     );
 }
@@ -19,13 +18,12 @@ function Copyright(){
 function AppRouter(){
     return(
         <div>
-
             <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<App/>}/>
-                <Route path="login" element={<Login/>}/>
-                <Route path="signup" element={<SignUp/>}/>
-            </Routes>
+                <Routes>
+                    <Route path="/" element={<App />}/>
+                    <Route path="login" element={<Login />}/>
+                    <Route path="signup" element={<SignUp />}/>
+                </Routes>
             </BrowserRouter>
             <Box mt={5}>
                 <Copyright />

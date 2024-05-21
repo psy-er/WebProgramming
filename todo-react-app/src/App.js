@@ -5,74 +5,54 @@ import { Container, List, Paper, Grid, Button, AppBar, Toolbar, Typography } fro
 import AddTodo from "./AddTodo";
 import {call, signout} from "./service/ApiService";
 
-function App() { // 백엔드 받아오기 전 임시 데이터
+function App() {
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const requestOptions = {
-    method: "GET",
-    headers: {"Content-Type": "application/json"}
-  };
 
-  useEffect(() => {
-      call("/todo", "GET", null)
-      .then((response) => setItems(response.data));
-  },[]); // 배열 인자가 없어서 한번만 실행된다
+  useEffect( () => {
+    call("/todo", "GET", null)
+      .then( (response) => {
+        setItems(response.data);
+        setLoading(false);
+      });
+  }, [] );
 
-  fetch("http://localhost:8080/todo", requestOptions)
-  .then((response)=> response.json())
-  .then(
-    // 람다 함수가 2개, 첫번째는 요청이 잘 왔을때, 두번째는 요청 문제 생길때
-    (response) => {
-      setItems(response.data);
-    },
-    (error) => {
-
-    }
-  );
 
   const addItem = (item) => {
     call("/todo", "POST", item)
-    .then((response)=> setItems(response.data));
+      .then((response) => setItems(response.data));
   };
 
   const deleteItem = (item) => {
     call("/todo", "DELETE", item)
-    .then((response)=> setItems(response.data));
-  };
+      .then((response) => setItems(response.data));
+  }
 
   const editItem = (item) => {
     call("/todo", "PUT", item)
-    .then((response)=> setItems(response.data));
-  }
+      .then((response) => setItems(response.data));
+  };
 
-  // JSX 결과를 변수에 저장함
 
-  let todoItems = items.length > 0 && (
-    <Paper style ={{margin: 16}}>
-      <List>
-        {items.map((item) => (
-          <Todo item={item} key={item.id} 
-          editItem={editItem} deleteItem={deleteItem}/>
-        ))}
-      </List>
-    </Paper>
-  )
-  return (
-    <div className='App'>
-      <Container maxWidth="md">
-        <AddTodo addItem={addItem} />
-        <div className="App">
-          {todoItems}
-        </div>
-      </Container>
-    </div>
-  );
+  // JSX 결과를 변수에 저장
+  let todoItems = 
+    items.length > 0 && (
+      <Paper style={{margin: 16}}>
+        <List>
+          {items.map((item)=> <Todo item={item} key={item.id} 
+            editItem={editItem} deleteItem={deleteItem} />)}; 
+        </List>
+      </Paper>
+    )
 
-  // navigationBar 추가
   let navigationBar = (
     <AppBar position="static">
       <Toolbar>
         <Grid justifyContent="space-between" container>
+          <Grid item>
+            <Typography variant='h6'>오늘의 할일</Typography>
+          </Grid>
           <Grid item>
             <Button color="inherit" raised onClick={signout}>
               로그아웃
@@ -83,15 +63,31 @@ function App() { // 백엔드 받아오기 전 임시 데이터
     </AppBar>
   );
 
-  return (
-    <div className="App">
-      {navigationBar} {/*네비게이션 바 렌더링 */}
+  let todoListPage = (
+    <div>
+      {navigationBar}
       <Container maxWidth="md">
         <AddTodo addItem={addItem} />
-        <div className='TodoList'>{todoItems}</div>
+        <div className="TodoList">
+          {todoItems}
+        </div>
       </Container>
     </div>
   );
+
+  let loadingPage = <h1>로딩 중...</h1>
+  let content = loadingPage;
+
+  if(!loading) {
+    content = todoListPage
+  }
+
+  // 변수를 반환
+  return (
+    <div className="App">
+      {content}
+    </div>
+  )
 }
 
 export default App;
