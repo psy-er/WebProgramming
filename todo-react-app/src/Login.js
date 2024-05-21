@@ -3,7 +3,7 @@ import {Container, Grid, Typography, TextField, Button} from "@mui/material";
 import {Link} from "react-router-dom";
 import {signin} from "./service/ApiService";
 
-function Login(){
+const Login = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.target);
@@ -43,7 +43,6 @@ function Login(){
                             fullWidth
                             name ="password"
                             label ="패스워드"
-                            type = "password"
                             id="password"
                             autoComplete="current-password"
                         />
